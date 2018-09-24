@@ -4,51 +4,42 @@ import java.util.ArrayList;
 
 public class Proc extends AtomicComponent {
 
+	public enum etat{BUSY,IDLE}
 	public Proc(String name) {
 		super(name);
-		outputs.add(IO.DONE);
-		inputs.add(IO.REQ);
+		outputs.add(IOenum.DONE);
+		inputs.add(IOenum.REQ);
 	}
 
-	/*
-	 * public void init() { current_state = 0; }
-	 */
+	public void init() { 
+		super.init();
+		
+		requiredTime.put(0, Double.POSITIVE_INFINITY);
+		requiredTime.put(1, 3.0);
+	}
 
 	@Override
 	public void delta_int() {
 		if (current_state == 1)
 			next_state = 0;
 		current_state = next_state;
+		ellapsedTime = 0;
 	}
 
 	@Override
-	public void delta_ext(ArrayList<IO> inputs) {
-		if (current_state == 0 && inputs.contains(IO.REQ))
+	public void delta_ext(ArrayList<IOenum> inputs) {
+		if (current_state == 0 && inputs.contains(IOenum.REQ))
 			next_state = 1;
 		current_state = next_state;
+		ellapsedTime = 0;
 	}
 
 	@Override
-	public void delta_con(ArrayList<IO> inputs) {
-		current_state = next_state;
-	}
-
-	@Override
-	public ArrayList<IO> lambda() {
-		ArrayList<IO> outputs = new ArrayList<>();
+	public ArrayList<IOenum> lambda() {
+		ArrayList<IOenum> outputs = new ArrayList<>();
 		if (current_state == 1) {
-			outputs.add(IO.DONE);
+			outputs.add(IOenum.DONE);
 		}
 		return outputs;
-	}
-
-	@Override
-	public double getTa() {
-		if (current_state == 0) {
-			return Double.POSITIVE_INFINITY;
-		} else if (current_state == 1) {
-			return 2.0;
-		}
-		return -1;
 	}
 }
