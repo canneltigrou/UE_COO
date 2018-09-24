@@ -5,6 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import chart.Chart;
+import chart.ChartFrame;
+
 public class Scheduler {
 
 	private static ArrayList<AtomicComponent> components;
@@ -65,7 +68,10 @@ public class Scheduler {
 		
 		initialisation_Scheduler();
 		Double tmp;
-		
+		ChartFrame cf = new ChartFrame("gbp", "GBP");
+		Chart qChart = new Chart("q");
+		//qChart.addDataToSeries(0.0, 1.0);
+		cf.addToLineChartPane(qChart);
 		for (AtomicComponent c : components)
 			c.init();
 		temps = 0.d;
@@ -73,8 +79,9 @@ public class Scheduler {
 			// on recupere les differents Ta pour savoir le temps du prochain evenement et
 			// les composants a executer.
 			System.out.println("temps : " + temps.toString());
-			//tempsMin = components.get(0).getTa();
-			tempsMin = Double.POSITIVE_INFINITY;
+			imminentComponents.clear();
+			tempsMin = components.get(0).getTa();
+			//tempsMin = Double.POSITIVE_INFINITY;	
 			for (AtomicComponent c : components) {
 				tmp = c.getTa();
 				System.out.println(c.name + ".Ta = " + tmp.toString());
@@ -82,10 +89,11 @@ public class Scheduler {
 					imminentComponents.clear();
 					tempsMin = tmp;
 				}
-				if (tmp == tempsMin)
+				if (tmp.equals(tempsMin))
 					imminentComponents.add(c);
 			}
 			System.out.println("Le prochain evenement se produira dans t + " + tempsMin);
+			
 
 			// j'execute lambda et recupere les composants impactés
 			temps += tempsMin;
@@ -116,6 +124,8 @@ public class Scheduler {
 						c.IncrementTime(tempsMin);
 				}
 			}
+			qChart.addDataToSeries(temps, buffer.getQ());
+			System.out.println("le q = " + buffer.getQ());
 			stop = !askContinue();
 		}
 

@@ -7,6 +7,10 @@ public class Buf extends AtomicComponent {
 	private int q;
 
 
+	public int getQ() {
+		return q;
+	}
+
 	public Buf(String name) {
 		super(name);
 
@@ -46,15 +50,17 @@ public class Buf extends AtomicComponent {
 			q++;
 			// integer_varnames_var.put("q",q);
 			next_state = 1;
-		} else if (current_state == 2 && inputs.contains(IOenum.JOB)) {
+		} else if (current_state == 2 && inputs.contains(IOenum.DONE)) {
 			if (q > 0)
 				next_state = 1;
 			if (q == 0)
 				next_state = 0;
+			System.out.println("done");
 		} else if (current_state == 2 && inputs.contains(IOenum.JOB)) {
 			q++;
 			// integer_varnames_var.put("q",q);
 			next_state = 2;
+			System.out.println("Job");
 		}
 
 		current_state = next_state;
