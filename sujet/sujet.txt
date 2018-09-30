@@ -1,0 +1,183 @@
+Simulateur à evenement discret de systemes hyybrides
+
+Syst. Hybride = Systeme continu (= equation differentiel) et discret (des evenements viennent changer au cours de l'exécution)
+
+
+
+
+exemple une balle tombe = continue
+arrivée au sol elle rebondit avec un petit facteur en moins pour rebondir un peu moins haut
+(Hauteur + vitesse en parametres  -> donne la trajectoire) continue + variable d'état quand h = 0 --> zero-crossing function
+
+Matlab simulink = à temps discret : calcul à chaque temps l'état suivant en fonction de l'état courant 
+X(t+h) = X(t) + X'(t)h
+pb : si l'evenement arrive entre 2 temps : il fait une approche dichotomique pour retrouver le temps exact (et donc l'état courant) entre t et t-1
+
+nous ici on ne discrétise pas le temps mais l'état.
+= action de quantiser
+
+en discret : un ordonnanceur donne "le prochain évenement arrivera à tel temps".
+1 seul noyau qui gère tout.
+
+
+------------------------------------------------
+On donne en entrée les equations, on doit ressortir les courbes des trajectoires.
+
+(3 notes : auto2valuation + CR + TPexam)
+
+-------------------------------------------------
+
+Generateur : génère des evenements (pur discret)
+composant qui tous les Tgen (= unité de temps) envoie un evenement (job)
+tps >0 entre 0 et inf
+état initial = a
+
+
+
+
+Buffer : envoie le job au processeur
+
+
+
+
+
+PROCesseur
+
+
+
+Classe Atomic Abstraite
+
+deltaInt : 
+deltaExt : 
+lambda : 
+getTa :
+Init :
+delta_conf : pour conflit : je suis pret à declancher req, mais je reçois en me^me temps une entrée...
+
+
+on crée l'ordonnanceur qui demande à tous le monde : quand survient ton prochain évent ? et range dans l'ordre croissant 
+il appelle getTa.
+exemmple 
+t = 0
+Generateur retourne 2
+Buf : Inf
+proc : Inf
+--> il avance à t = 2
+et déclanche la fonction sortie, la fonction interne et externe
+--> nvl etat
+
+t = 2
+generateur : 2
+Buf : 0
+proc : inf
+--> les simu avance de t = 0  -> envoi de req
+
+gen : 2 (ne change pas)
+buf : inf
+done = 3
+proc : 3
+---> in avance de 2
+
+gen : 2
+proc = 1
+
+
+
+
+
+
+main
+pout tout c appartenant à composants
+	c.init;
+t = 0;
+while(t<tfin)
+	...
+pout tout c appartenant à composants
+	tps[i] = c.getTa();
+tmin = min(tps)
+listeImminance = (tous les composants ayant un tmin)
+pour tout c dans listeImminance
+	c.lambda();
+listeImpact ...
+pour tout c dans composants
+	si (c non impacté && c imminant)
+		c.deltaInt()
+	si (c non impacté && non imminant)
+		c.deltatExt()
+	si (c impacté && ta(idle) = inf && c dans imminant)
+		c.delta.conflit
+	sinon
+		t = t + tmin;
+
+
+
+
+faire un affichage avec temps , le e, ta, tn ... (temps précédent tp ; temps courant t(e le temps écoulé et tr le temps restant), temps prochain tn ( =tp + ta); etc...
+		
+
+
+
+
+
+SEANCE 2
+
+
+ON PASSE EN CONTINUE AVEC EQUA DIFF
+on spécifie x par rapport à une dérivé de x
+x' = f(x , entrees)
+
+on commence d'ordre 1, puis on augmente les ordres, puis les dimensions.
+
+systeme proposés : 4 composants steps ( = echelon) pour donner les taux de changement de x dans le temps
+
+step 1 : 	Xi = 1
+		Xf = -3
+		ts = 0.65
+
+step 2 : 	Xi = 0
+		Xf = 1
+		ts = 0.35
+
+step 3 :	Xi = 0
+		Xf = 1
+		ts = 1
+ 
+step 4 : 	Xi = 0
+		Xf = 4
+		ts = 4.5
+
+on parle maintenent de dérivées : delta_t
+
+Adder : additionne les 4 steps en renvoie x' (la dérivé de x)
+
+Integrateur : à partir de x' -> déduit la valeur de x
+
+
+------------------
+Je peux alors regarder l'état de X à t+h
+---------------
+
+Integrateur Euler : on a 1 etat. On y reste h temps.
+on envoie la nouvelle valeur en sortie : x + hx'  (la valeur precedente + h * la dérivée)
+
+step : 1 composant sans entrée, avec des sorties. 
+
+
+
+exemple 
+t = 0
+	X' = 1
+à t = 0.35
+	X' +=1 -> 2
+à t = 0.65
+	X' += -3  -> -1
+
+
+
+
+e = temps écoulé 
+
+
+on prendra h = 10E-4
+
+
