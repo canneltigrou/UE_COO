@@ -8,25 +8,25 @@ import java.util.ArrayList;
 import chart.Chart;
 import chart.ChartFrame;
 
-public class Scheduler {
+public class DiscretScheduler {
 
-	private static ArrayList<AtomicComponent> components;
-	private static Double temps;
-	private static boolean stop; // equivalent à Tmax, mais ici on demandera par IHM si on continue ou non
-	private static ArrayList<AtomicComponent> imminentComponents;
-	private static ArrayList<AtomicComponent> impactedComponents;
-	private static Double tempsMin;
-	private static Buf buffer;
-	private static Gen generator;
-	private static Proc processor;
-	private static ArrayList<IOenum> messageList;
+	private ArrayList<AtomicComponent> components;
+	private Double temps;
+	private boolean stop; // equivalent à Tmax, mais ici on demandera par IHM si on continue ou non
+	private ArrayList<AtomicComponent> imminentComponents;
+	private ArrayList<AtomicComponent> impactedComponents;
+	private  Double tempsMin;
+	private  Buf buffer;
+	private  Gen generator;
+	private  Proc processor;
+	private  ArrayList<IOenum> messageList;
 
 	// for choose the mode we want to run : dynamic mode, or until we stop the
 	// program (ctrl-C) or with a choosen time ?
-	private static boolean dynamic;
-	private static double chosenTime;
+	private  boolean dynamic;
+	private  double chosenTime;
 
-	public static boolean askContinue() throws IOException {
+	public  boolean askContinue() throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("\nDo you want to continue the simulation ? (y|n)\n");
 		String s = br.readLine();
@@ -35,7 +35,7 @@ public class Scheduler {
 		return false;
 	}
 
-	public static void askMode() throws IOException {
+	public  void askMode() throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		boolean stop = false;
 		int chosenNumber = 0;
@@ -89,7 +89,7 @@ public class Scheduler {
 		
 	}
 
-	private static AtomicComponent impactedComponent(IOenum message) {
+	private  AtomicComponent impactedComponent(IOenum message) {
 		if (message.equals(IOenum.JOB))
 			return buffer;
 		if (message.equals(IOenum.REQ))
@@ -99,14 +99,14 @@ public class Scheduler {
 		return null;
 	}
 
-	private static ArrayList<AtomicComponent> impactedComponents(ArrayList<IOenum> messagesList) {
+	private  ArrayList<AtomicComponent> impactedComponents(ArrayList<IOenum> messagesList) {
 		ArrayList<AtomicComponent> res = new ArrayList<>();
 		for (IOenum io : messagesList)
 			res.add(impactedComponent(io));
 		return res;
 	}
 
-	private static void initialisation_Scheduler() {
+	private  void initialisation_Scheduler() {
 		components = new ArrayList<>();
 		imminentComponents = new ArrayList<>();
 		impactedComponents = new ArrayList<>();
@@ -122,7 +122,7 @@ public class Scheduler {
 
 	}
 
-	public static void main(String[] args) throws IOException {
+	private void run() throws IOException {
 
 		initialisation_Scheduler();
 		askMode();
@@ -191,6 +191,14 @@ public class Scheduler {
 			else
 				if (temps > chosenTime)
 					stop = true;
+		}
+	}
+	
+	public DiscretScheduler() {
+		try {
+			run();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }
