@@ -6,7 +6,6 @@ public class Buf extends AtomicComponent {
 
 	private int q;
 
-
 	public int getQ() {
 		return q;
 	}
@@ -14,9 +13,9 @@ public class Buf extends AtomicComponent {
 	public Buf(String name) {
 		super(name);
 
-		outputs.add(IOenum.REQ);
-		inputs.add(IOenum.DONE);
-		inputs.add(IOenum.JOB);
+		outputs.add(new IO(IOenum.REQ));
+		inputs.add(new IO(IOenum.DONE));
+		inputs.add(new IO(IOenum.JOB));
 	}
 
 	@Override
@@ -36,27 +35,27 @@ public class Buf extends AtomicComponent {
 			// integer_varnames_var.put("q",q);
 			next_state = 2;
 		}
-		current_state =  next_state;
+		current_state = next_state;
 		ellapsedTime = 0;
 	}
 
 	@Override
-	public void delta_ext(ArrayList<IOenum> inputs) {
-		if (current_state == 0 && inputs.contains(IOenum.JOB)) {
+	public void delta_ext(ArrayList<IO> inputs) {
+		if (current_state == 0 && inputs.contains((Object) IOenum.JOB)) {
 			q++;
 			// integer_varnames_var.put("q",q);
 			next_state = 1;
-		} else if (current_state == 1 && inputs.contains(IOenum.JOB)) {
+		} else if (current_state == 1 && inputs.contains((Object) IOenum.JOB)) {
 			q++;
 			// integer_varnames_var.put("q",q);
 			next_state = 1;
-		} else if (current_state == 2 && inputs.contains(IOenum.DONE)) {
+		} else if (current_state == 2 && inputs.contains((Object) IOenum.DONE)) {
 			if (q > 0)
 				next_state = 1;
 			if (q == 0)
 				next_state = 0;
 			System.out.println("done");
-		} else if (current_state == 2 && inputs.contains(IOenum.JOB)) {
+		} else if (current_state == 2 && inputs.contains((Object) IOenum.JOB)) {
 			q++;
 			// integer_varnames_var.put("q",q);
 			next_state = 2;
@@ -68,11 +67,12 @@ public class Buf extends AtomicComponent {
 	}
 
 	@Override
-	public ArrayList<IOenum> lambda() {
-		ArrayList<IOenum> outputs = new ArrayList<>();
+	public ArrayList<IO> lambda() {
+		ArrayList<IO> outputs = new ArrayList<>();
 		if (current_state == 1) {
-			outputs.add(IOenum.REQ);
+			outputs.add(new IO(IOenum.REQ));
 		}
 		return outputs;
 	}
+
 }

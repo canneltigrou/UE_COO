@@ -6,7 +6,8 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		
-		new DiscretScheduler();
+		//new DiscretScheduler();
+		new ContinueScheduler();
 		
 		
 	}

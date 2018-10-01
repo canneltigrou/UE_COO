@@ -6,11 +6,9 @@ public class Gen extends AtomicComponent {
 
 	public Gen(String name) {
 		super(name);
-		outputs.add(IOenum.JOB);
+		outputs.add(new IO(IOenum.JOB));
 		requiredTime.put(0, 2.0); // l'état 0 doit durer 2 UA de temps.
-		
-		
-		
+
 	}
 
 	/*
@@ -26,16 +24,16 @@ public class Gen extends AtomicComponent {
 	}
 
 	@Override
-	public void delta_ext(ArrayList<IOenum> inputs) {
+	public void delta_ext(ArrayList<IO> inputs) {
 		current_state = next_state;
 		ellapsedTime = 0;
 	}
 
 	@Override
-	public ArrayList<IOenum> lambda() {
-		ArrayList<IOenum> outputs = new ArrayList<>();
+	public ArrayList<IO> lambda() {
+		ArrayList<IO> outputs = new ArrayList<>();
 		if (current_state == 0) {
-			outputs.add(IOenum.JOB);
+			outputs.add(new IO(IOenum.JOB));
 		}
 		return outputs;
 	}

@@ -8,8 +8,8 @@ public abstract class AtomicComponent {
 	protected int current_state;
 	protected int next_state;
 	protected int previous_state;
-	protected ArrayList<IOenum> inputs;
-	protected ArrayList<IOenum> outputs;
+	protected ArrayList<IO> inputs;
+	protected ArrayList<IO> outputs;
 
 	protected HashMap<Integer, Double> requiredTime; // affecte le temps requis pour chaque etat
 	protected double ellapsedTime;
@@ -26,12 +26,12 @@ public abstract class AtomicComponent {
 
 	}
 
-	public void delta_ext(ArrayList<IOenum> inputs) {
+	public void delta_ext(ArrayList<IO> inputs) {
 		current_state = next_state;
 		ellapsedTime = 0;
 	}
 
-	public void delta_con(ArrayList<IOenum> inputs) {
+	public void delta_con(ArrayList<IO> inputs) {
 		current_state = next_state;
 		ellapsedTime = 0;
 	}
@@ -47,7 +47,7 @@ public abstract class AtomicComponent {
 	}
 
 	/* retourne les evenements qu'il envoie */
-	public ArrayList<IOenum> lambda() {
+	public ArrayList<IO> lambda() {
 		return null;
 	}
 

@@ -1,4 +1,4 @@
-Simulateur à evenement discret de systemes hyybrides
+Simulateur à evenement discret de systemes hybrides
 
 Syst. Hybride = Systeme continu (= equation differentiel) et discret (des evenements viennent changer au cours de l'exécution)
 
@@ -23,7 +23,7 @@ en discret : un ordonnanceur donne "le prochain évenement arrivera à tel temps".
 ------------------------------------------------
 On donne en entrée les equations, on doit ressortir les courbes des trajectoires.
 
-(3 notes : auto2valuation + CR + TPexam)
+(3 notes : auto-valuation + CR + TPexam)
 
 -------------------------------------------------
 
@@ -52,12 +52,12 @@ deltaExt :
 lambda : 
 getTa :
 Init :
-delta_conf : pour conflit : je suis pret à declancher req, mais je reçois en me^me temps une entrée...
+delta_conf : pour conflit : je suis pret à declancher req, mais je reçois en même temps une entrée...
 
 
 on crée l'ordonnanceur qui demande à tous le monde : quand survient ton prochain évent ? et range dans l'ordre croissant 
 il appelle getTa.
-exemmple 
+exemple 
 t = 0
 Generateur retourne 2
 Buf : Inf
@@ -116,6 +116,7 @@ faire un affichage avec temps , le e, ta, tn ... (temps précédent tp ; temps cou
 		
 
 
+___________________________________________________________________________________________________________
 
 
 
@@ -179,5 +180,50 @@ e = temps écoulé
 
 
 on prendra h = 10E-4
+
+
+
+
+-_______________________________________________________________________
+
+on avait integrateur à tps discret. qss 
+maintenant o ndiscretidse l'état.
+
+selon la pente de la dérivée.
+si pente forte : le temps pour passer d'u netat discret à un autre sera faible.
+
+X --> q (quantisé)
+
+on connait deltaQ : précision de la solution.
+
+on pose delta Q = abs(q - qlast)
+
+q = qlast + elapsedTime * q'
+on veut trouver deltaT(en absicisse)
+
+si dérivée nulle -> temps infini
+
+deltaT = abs(q - qlast)/q'  = deltaQ / q'
+
+Je reste dans le meme etat jusqu'à deltaT
+
+à deltaT ==> q = q + deltaQ * sign(q')
+deltaT = deltaq / abs(q')
+
+
+
+si je recois une nouvelle valeur de q'
+--> q = qlast + elapsedTime * q'
+on demande le nouveau temps à parcourir pour atteindre le nouveau Q
+
+
+
+
+
+
+
+
+
+
 
 
