@@ -1,6 +1,10 @@
-package business;
+package continu;
 
 import java.util.ArrayList;
+
+import business.AtomicComponent;
+import business.IO;
+import business.IOenum;
 
 public class Step extends AtomicComponent{
 	double xi;

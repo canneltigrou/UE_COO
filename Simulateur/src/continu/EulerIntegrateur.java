@@ -1,8 +1,12 @@
-package business;
+package continu;
 
 import java.util.ArrayList;
 
-public class Integrateur extends Proc{
+import business.IO;
+import business.IOenum;
+import discret.Proc;
+
+public class EulerIntegrateur extends Proc{
 	//public enum etat{BUSY,IDLE}
 	private double pas;
 	private double currentX;
@@ -16,7 +20,7 @@ public class Integrateur extends Proc{
 
 	private double derivativeX;
 	
-	public Integrateur(String name, double pas) {
+	public EulerIntegrateur(String name, double pas) {
 		super(name);
 		this.pas = pas;
 	}

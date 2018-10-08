@@ -1,7 +1,11 @@
-package business;
+package continu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import business.AtomicComponent;
+import business.IO;
+import business.IOenum;
 
 public class Adder extends AtomicComponent {
 	HashMap<AtomicComponent, Object> xi ; // prend en clé le nom du composant, et sa valeur Xi.

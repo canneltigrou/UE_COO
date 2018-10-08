@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class AtomicComponent {
-	protected String name;
+	public String name;
 	protected int current_state;
 	protected int next_state;
 	protected int previous_state;

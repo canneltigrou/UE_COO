@@ -1,6 +1,10 @@
-package business;
+package discret;
 
 import java.util.ArrayList;
+
+import business.AtomicComponent;
+import business.IO;
+import business.IOenum;
 
 public class Proc extends AtomicComponent {
 

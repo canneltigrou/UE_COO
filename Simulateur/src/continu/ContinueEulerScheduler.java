@@ -1,14 +1,17 @@
-package business;
+package continu;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import business.AtomicComponent;
+import business.IO;
+import business.IOenum;
 import chart.Chart;
 import chart.ChartFrame;
 
-public class ContinueScheduler {
+public class ContinueEulerScheduler {
 
 	private ArrayList<AtomicComponent> components;
 	private Double temps;
@@ -21,7 +24,7 @@ public class ContinueScheduler {
 	private Step step3;
 	private Step step4;
 	private Adder adder;
-	private Integrateur integrateur;
+	private EulerIntegrateur integrateur;
 
 	private ArrayList<IO> messageList;
 
@@ -124,7 +127,7 @@ public class ContinueScheduler {
 		adder = new Adder("Adder");
 		components.add(adder);
 
-		integrateur = new Integrateur("Integrateur", 0.0001);
+		integrateur = new EulerIntegrateur("Integrateur", 0.0001);
 		components.add(integrateur);
 
 		stop = false;
@@ -205,7 +208,7 @@ public class ContinueScheduler {
 		}
 	}
 
-	public ContinueScheduler() {
+	public ContinueEulerScheduler() {
 		try {
 			run();
 		} catch (IOException e) {

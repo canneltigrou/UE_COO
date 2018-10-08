@@ -1,10 +1,13 @@
-package business;
+package discret;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import business.AtomicComponent;
+import business.IO;
+import business.IOenum;
 import chart.Chart;
 import chart.ChartFrame;
 
