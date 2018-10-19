@@ -25,19 +25,20 @@ public class QssIntegrateur extends AtomicComponent {
 	public QssIntegrateur(String name, double pas) {
 		super(name);
 		this.stepQ = pas;
+		currentQ = 0;
+	}
 
+	public QssIntegrateur(String name, double pas, double initialValue) {
+		super(name);
+		this.stepQ = pas;
+		currentQ = initialValue;
 	}
 
 	public void init() {
 		super.init();
 		requiredTime.put(0, Double.POSITIVE_INFINITY);
-		currentQ = 0.0;
 		derivativeQ = 0.0;
 		lastQ = 0.0;
-		
-
-		// deltaQ = //Math.abs(currentQ - lastQ);
-
 	}
 
 	@Override
@@ -51,6 +52,17 @@ public class QssIntegrateur extends AtomicComponent {
 
 	@Override
 	public void delta_ext(ArrayList<IO> inputs) {
+
+		if (inputs.get(0).getType().equals(IOenum.RESET)) {
+			// it happens if the ball reach the flour. So Q take the opposite value.
+			lastQ = currentQ;
+			currentQ = -lastQ;
+			requiredTime.put(current_state, 0.0);
+			// I keep the same derivative because the others forces didn't change.
+			//System.out.println(" I RESET  ! !! ! !");
+			return;
+		}
+
 		// I compute the new value of currentQ at this time :
 		lastQ = currentQ;
 		currentQ += ellapsedTime * derivativeQ;
@@ -68,7 +80,7 @@ public class QssIntegrateur extends AtomicComponent {
 		requiredTime.put(current_state, remainedQ / Math.abs(derivativeQ));
 		ellapsedTime = 0;
 
-		System.out.println();
+		//System.out.println(" Me : " + name + " -> I computed Q = " + currentQ);
 	}
 
 	@Override

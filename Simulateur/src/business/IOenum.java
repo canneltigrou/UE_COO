@@ -1,6 +1,6 @@
 package business;
 
 public enum IOenum {
-	JOB, DONE, REQ
+	JOB, DONE, REQ, RESET
 
 }
